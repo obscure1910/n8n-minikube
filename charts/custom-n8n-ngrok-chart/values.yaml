@@ -1,0 +1,4 @@
+agentendpoint:
+  host: he-man.ngrok-free.app
+  n8nService: http://n8n.internal
+  webhookService: http://n8n.webhook.internal

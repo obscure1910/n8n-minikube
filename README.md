@@ -17,6 +17,8 @@ Ngrok startet pro referenzierten Service im Ingress automatisch AgentEndpoints u
 Im generierten AgentEndpoint ist sonst ein Fehler zu sehen:
 > This agent has exceeded its policy rule limit of 5. Please log into https://dashboard.ngrok.com ...
 
+In dieser Version mit Cloudendpoint ist kein Ingress mehr nötig und Minikube wird ohne Ingress gestartet.
+
 # Kubernetes starten und n8n deployen
 
 

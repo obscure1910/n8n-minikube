@@ -3,15 +3,6 @@ image:
   pullPolicy: IfNotPresent
   tag: "1.100.1"
 
-ingress:
-  enabled: true
-  # 'ngrok' statt 'nginx' - wenn man möchte dass der ngrok operator die Agentendpoints anlegt
-  className: "nginx" 
-  hosts:
-    - host: {{ .Values.domain }}
-      paths:
-        - /
-
 webhook:
   enabled: true
        

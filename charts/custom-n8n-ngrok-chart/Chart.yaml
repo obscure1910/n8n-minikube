@@ -1,5 +1,5 @@
 apiVersion: v2              
 name: custom-n8n-ngrok-chart
-description: Anlegen der Agentendpoints
+description: Anlegen der Agentendpoints und ein Cloudendpoint (Front Door Pattern)
 type: application            
 version: 0.1.0

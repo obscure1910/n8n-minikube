@@ -1,0 +1,28 @@
+{{- $host := .Values.agentendpoint.host }}
+{{- $n8nServiceUrl := .Values.agentendpoint.n8nService }}
+{{- $webhookServiceUrl := .Values.agentendpoint.webhookService }}
+apiVersion: ngrok.k8s.ngrok.com/v1alpha1
+kind: CloudEndpoint
+metadata:
+  name: n8n-cloud
+spec:
+  url: {{ $host }}
+  domain:
+    name: {{ $host }}
+  bindings:
+  - public
+  trafficPolicy:
+    policy:
+      on_http_request:
+      - expressions:
+        - "req.url.path == '/' || req.url.path.startsWith('/webhook-test/')"
+        actions:
+        - type: forward-internal
+          config:
+            url: {{ $n8nServiceUrl }}
+      - expressions:
+        - "req.url.path.startsWith('/webhook/') || req.url.path.startsWith('/webhook-waiting/') || req.url.path.startsWith('/form/')"
+        actions:
+        - type: forward-internal
+          config:
+            url: {{ $webhookServiceUrl }}
