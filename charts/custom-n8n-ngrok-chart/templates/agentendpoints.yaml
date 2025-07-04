@@ -1,0 +1,19 @@
+{{- $host := .Values.agentendpoint.host }}
+{{- $ns := .Release.Namespace }}
+{{- $endpoints := list
+  (dict "name" "n8n-agent" "path" "" "upstream" (printf "http://n8n.%s.svc.cluster.local:80" $ns))
+  (dict "name" "n8n-webhook-agent" "path" "/webhook" "upstream" (printf "http://n8n-webhook.%s.svc.cluster.local:80" $ns))
+  (dict "name" "n8n-webhook-test-agent" "path" "/webhook-test" "upstream" (printf "http://n8n.%s.svc.cluster.local:80" $ns))
+  (dict "name" "n8n-webhook-form-agent" "path" "/form" "upstream" (printf "http://n8n-webhook.%s.svc.cluster.local:80" $ns))
+}}
+{{- range $ep := $endpoints }}
+apiVersion: ngrok.k8s.ngrok.com/v1alpha1
+kind: AgentEndpoint
+metadata:
+  name: {{ $ep.name }}
+spec:
+  url: https://{{ $host }}{{ $ep.path }}
+  upstream:
+    url: {{ $ep.upstream }}
+---
+{{- end }}

@@ -1,0 +1,5 @@
+apiVersion: v2              
+name: custom-n8n-ngrok-chart
+description: Anlegen der Agentendpoints
+type: application            
+version: 0.1.0

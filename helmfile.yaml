@@ -1,0 +1,53 @@
+environments:
+  # default wird genommen wenn kein anderes envoronment angegeben wird z.B. (helmfile --environment prod)
+  default:
+    values:
+      - environments/default/values.gotmpl
+  # prod: 
+  #   values:
+  #     - environments/prod/values.yaml
+
+---
+
+repositories:
+  - name: 8gears
+    url: 8gears.container-registry.com/library
+    oci: true
+  - name: bitnami
+    url: oci://registry-1.docker.io/bitnamicharts
+    oci: true
+  - name: ngrok
+    url: https://charts.ngrok.com
+
+releases:
+  - name: n8n
+    namespace: n8n
+    chart: oci://8gears.container-registry.com/library/n8n
+    version: 1.0.10
+    values:
+      - values/n8n-values.yaml.gotmpl
+
+  - name: postgresql
+    namespace: database
+    chart: oci://registry-1.docker.io/bitnamicharts/postgresql
+    version: 16.7.9
+    values:
+      - values/postgresql-values.yaml
+  
+  - name: ngrok
+    namespace: ngrok-operator
+    chart: ngrok/ngrok-operator
+    # warten bis pods laufen
+    wait: true              
+    values:
+      - values/ngrok-values.yaml.gotmpl
+
+  - name: custom-n8n-ngrok
+    namespace: n8n
+    chart: charts/custom-n8n-ngrok-chart
+    # dieses release erst starten wenn ngrok-operator läuft; sonst können crds nicht gefunden werden
+    needs:
+      # pattern <namespace>/<release-name>
+      - ngrok-operator/ngrok 
+    values:
+      - values/custom-n8n-ngrok-values.yaml.gotmpl

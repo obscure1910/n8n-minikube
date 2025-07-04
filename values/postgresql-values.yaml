@@ -1,0 +1,10 @@
+auth:
+  username: myuser
+  password: mypassword
+  database: n8n
+
+primary:
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: standard
