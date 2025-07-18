@@ -61,7 +61,7 @@ main:
     - name: DB_POSTGRESDB_PORT
       value: "5432"
     - name: DB_POSTGRESDB_USER
-      value: myuser
+      value: {{ .Values.postgresql.user }}
     - name: DB_POSTGRESDB_PASSWORD
-      value: mypassword
+      value: {{ .Values.postgresql.password }}
    

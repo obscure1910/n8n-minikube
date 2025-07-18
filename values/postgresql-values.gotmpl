@@ -1,0 +1,10 @@
+auth:
+  username: {{ requiredEnv `N8N_POSTGRESQL_USER` }}
+  password: {{ requiredEnv `N8N_POSTGRESQL_PASSWORD` }}
+  database: n8n
+
+primary:
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: standard

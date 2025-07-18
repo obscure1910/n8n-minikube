@@ -32,7 +32,7 @@ releases:
     chart: oci://registry-1.docker.io/bitnamicharts/postgresql
     version: 16.7.9
     values:
-      - values/postgresql-values.yaml
+      - values/postgresql-values.gotmpl
   
   - name: ngrok
     namespace: ngrok-operator

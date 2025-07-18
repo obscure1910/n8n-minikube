@@ -1,3 +1,6 @@
+# Hinweis
+Dieses Projekt nutzt haupsächlich das Helmchart von [8gears](https://github.com/8gears/n8n-helm-chart) :heart:
+
 # Vorbediungungen
 
 ### Minikube
@@ -10,14 +13,17 @@
 [Helmfile](https://github.com/helmfile/helmfile) ermöglicht deklarativ das deployen von Charts
 
 ### ngrok
-[ngrok](https://ngrok.com) ist ein Reverse Proxy und ermöglicht den Zugriff von externen auf APIs im Kubernetes Cluster ohne komplexe Konfigurationen
+[ngrok](https://ngrok.com) ist ein Reverse-Proxy und Operator, der den externen Zugriff auf APIs innerhalb eines Kubernetes-Clusters ermöglicht – ganz ohne komplexe Konfigurationen
 
 #### Hinweis zu ngrok
-Ngrok startet pro referenzierten Service im Ingress automatisch AgentEndpoints und Regeln. Im "free plan" darf man aber nur 5 Policy Rules haben und darum muss als Ingress class "nginx" statt "ngrok" verwendet werden
-Im generierten AgentEndpoint ist sonst ein Fehler zu sehen:
-> This agent has exceeded its policy rule limit of 5. Please log into https://dashboard.ngrok.com ...
+Ngrok erstellt für jeden referenzierten Service im Ingress automatisch AgentEndpoints und zugehörige Regeln. Im Free-Plan sind jedoch nur fünf Policy-Regeln erlaubt.
+Damit der Operator keine AgentEndpoints automatisch anlegt, darf die Ingress Class nicht auf "ngrok" gesetzt sein.
 
-In dieser Version mit Cloudendpoint ist kein Ingress mehr nötig und Minikube wird ohne Ingress gestartet.
+Andernfalls erscheint im generierten AgentEndpoint folgender Fehler:
+
+    This agent has exceeded its policy rule limit of 5. Please log into https://dashboard.ngrok.com ...
+
+Wird stattdessen ein ngrok Cloud Endpoint verwendet, ist kein Ingress erforderlich, und Minikube kann ohne Ingress-Komponente gestartet werden. Für den Nutzer ist hier nichts weiter anzupassen, es ist lediglich ein Hinweis.
 
 # Kubernetes starten und n8n deployen
 
@@ -25,12 +31,14 @@ In dieser Version mit Cloudendpoint ist kein Ingress mehr nötig und Minikube wi
 ## Umgebungsvariablen
 Folgende Umgebungsvariablen müssen auf dem Host gesetzt sein
 
-|Umgebungsvariable  |Beschreibung|
-|-------------------|-------------|
-|NGROK_DOMAIN       |Freie Domäne die man bei ngrok bekommen hat |
-|NGROK_API_KEY      |Api Key von ngrok |
-|NGROK_AUTHTOKEN    |Auth Token von ngrok |
-|N8N_ENCRYPTION_KEY |wird zum Verschlüsseln von credentials verwendet |
+|Umgebungsvariable      |Beschreibung|
+|-----------------------|-------------|
+|NGROK_DOMAIN           |Freie Domäne die man bei ngrok bekommen hat |
+|NGROK_API_KEY          |Api Key von ngrok |
+|NGROK_AUTHTOKEN        |Auth Token von ngrok |
+|N8N_ENCRYPTION_KEY     |wird zum Verschlüsseln von credentials verwendet |
+|N8N_POSTGRESQL_USER    |Benutzername für die Datenbank |
+|N8N_POSTGRESQL_PASSWORD|Passwort für die Datenbank |
 
 ## Minikube starten
 ```bash
@@ -41,15 +49,13 @@ Folgende Umgebungsvariablen müssen auf dem Host gesetzt sein
 ```bash
 helmfile init
 ```
-## Helmfile anpassen
-In der Datei [environments/default/values.yaml](environments/default/values.yaml) die Domäne hinterlegen welche bei ngrok beantragt wurde. Zum Beispiel: ```he-man.ngrok-free.app```
 
 ## Helmfile ausführen
 ```bash
 helmfile sync
 ```
 
-Da der ngrok Operator erst gestartet wird wenn alle Pods laufen, kann das deployment beim ersten Aufrug bis zu 3 Minuten dauern.
+__Da der ngrok Operator erst gestartet wird wenn alle Pods laufen, kann das Deployment beim ersten Aufruf bis zu 3 Minuten dauern.__
 
 ### n8n aufrufen
 Die von ngrok bereitgestellte Domäne im Brwoser aufrufen
