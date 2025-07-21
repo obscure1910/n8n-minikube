@@ -1,6 +1,7 @@
 domain: {{ requiredEnv `NGROK_DOMAIN` }}
 n8n:
   encryptionKey: {{ requiredEnv `N8N_ENCRYPTION_KEY` }}
+  license: {{ env `N8N_LICENSE` }}
 postgresql:
   user: {{ requiredEnv `N8N_POSTGRESQL_USER` }}
   password: {{ requiredEnv `N8N_POSTGRESQL_PASSWORD` }}

@@ -15,14 +15,12 @@ spec:
     policy:
       on_http_request:
       - expressions:
-        - "req.url.path == '/' || req.url.path.startsWith('/webhook-test/')"
-        actions:
-        - type: forward-internal
-          config:
-            url: {{ $n8nServiceUrl }}
-      - expressions:
-        - "req.url.path.startsWith('/webhook/') || req.url.path.startsWith('/webhook-waiting/') || req.url.path.startsWith('/form/')"
+        - "req.url.path.startsWith('/webhook-test/') || req.url.path.startsWith('/webhook/') || req.url.path.startsWith('/webhook-waiting/') || req.url.path.startsWith('/form/')"
         actions:
         - type: forward-internal
           config:
             url: {{ $webhookServiceUrl }}
+      - actions:
+        - type: forward-internal
+          config:
+            url: {{ $n8nServiceUrl }}

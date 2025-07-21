@@ -3,37 +3,25 @@ image:
   pullPolicy: IfNotPresent
   tag: "1.100.1"
 
-webhook:
-  enabled: true
-       
-valkey:
-  enabled: true
-  architecture: standalone
-  sentinel:
-    enabled: false
-  auth:
-    enabled: false
-  primary:
-    kind: Deployment
-    persistence:
-      enabled: false
-    resources:
-      requests:
-        memory: 256Mi
-        cpu: 100m
-
 main:
   config:
     n8n:
       editor_base_url: https://{{ .Values.domain }}
       hide_usage_page: true
-    # valkey konfiguration
-    # valkey wird verwendet um requests vom webhook abzulegen. N8N im queue mode pulled dann die Aufträge und verarbeitet diese
-    QUEUE_BULL_REDIS_HOST: n8n-valkey-primary.n8n.svc.cluster.local
-    QUEUE_BULL_REDIS_PORT: "6379"
-    EXECUTIONS_MODE: "queue" 
-    # Diese Url wird an Services gegeben damit diese Trigger in N8N auskösen können
-    WEBHOOK_URL: https://{{ .Values.domain }}
+    # license ist beim ersten Start noch nicht vorhanden und wird erst per mail zugesendet. Kann hier anschließend gesetzt werden
+      license:
+        activation: 
+          key: {{ .Values.n8n.license }}
+    # Diese Url wird an Services gegeben damit diese Trigger in n8n auskösen können
+    webhook_url: https://{{ .Values.domain }}
+    executions_mode: queue
+    queue:
+      bull:
+        # valkey konfiguration
+        # valkey wird verwendet um requests vom webhook abzulegen. n8n im queue mode pulled dann die Aufträge und verarbeitet diese
+        redis: 
+          host: n8n-valkey-primary.n8n.svc.cluster.local
+          port: "6379"
   secret:
     n8n:
       encryption_key: {{ .Values.n8n.encryptionKey }}
@@ -42,7 +30,9 @@ main:
       memory: 2048Mi
     requests:
       memory: 512Mi
-  extraEnv:
+  extraEnv: &extraEnv
+    - name: N8N_RUNNERS_ENABLED
+      value: "true"
     # sonst kommt eine Warnung beim aufruf dass man eine unsichere Verbindung verwendet
     - name: N8N_SECURE_COOKIE
       value: "false"
@@ -64,4 +54,35 @@ main:
       value: {{ .Values.postgresql.user }}
     - name: DB_POSTGRESDB_PASSWORD
       value: {{ .Values.postgresql.password }}
-   
+    # notwednig da n8n hinter ngrok läuft
+    - name: N8N_PROXY_HOPS
+      value: "1"
+    - name: OFFLOAD_MANUAL_EXECUTIONS_TO_WORKERS
+      value: "true"
+    # sonst funktionieren die health checks nicht im queue mode und keine execution wird erfolgreich
+    - name: QUEUE_HEALTH_CHECK_ACTIVE
+      value: "true"
+
+webhook:
+  enabled: true
+  extraEnv: *extraEnv
+
+worker:
+  enabled: true
+  extraEnv: *extraEnv
+       
+valkey:
+  enabled: true
+  architecture: standalone
+  sentinel:
+    enabled: false
+  auth:
+    enabled: false
+  primary:
+    kind: Deployment
+    persistence:
+      enabled: false
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 100m

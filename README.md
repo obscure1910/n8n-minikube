@@ -27,7 +27,6 @@ Wird stattdessen ein ngrok Cloud Endpoint verwendet, ist kein Ingress erforderli
 
 # Kubernetes starten und n8n deployen
 
-
 ## Umgebungsvariablen
 Folgende Umgebungsvariablen müssen auf dem Host gesetzt sein
 
@@ -39,6 +38,10 @@ Folgende Umgebungsvariablen müssen auf dem Host gesetzt sein
 |N8N_ENCRYPTION_KEY     |wird zum Verschlüsseln von credentials verwendet |
 |N8N_POSTGRESQL_USER    |Benutzername für die Datenbank |
 |N8N_POSTGRESQL_PASSWORD|Passwort für die Datenbank |
+|N8N_LICENSE            |Lizenz von n8n |
+
+n8n hat ein viele Umgebungsvariablen die hinzugefügt werden können: https://docs.n8n.io/hosting/configuration/environment-variables/
+
 
 ## Minikube starten
 ```bash
