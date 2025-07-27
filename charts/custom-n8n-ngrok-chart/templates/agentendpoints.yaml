@@ -1,4 +1,3 @@
-{{- $host := .Values.agentendpoint.host }}
 {{- $ns := .Release.Namespace }}
 {{- $n8nService := .Values.agentendpoint.n8nService }}
 {{- $webhookService := .Values.agentendpoint.webhookService }}

@@ -28,7 +28,7 @@ Wird stattdessen ein ngrok Cloud Endpoint verwendet, ist kein Ingress erforderli
 # Kubernetes starten und n8n deployen
 
 ## Umgebungsvariablen
-Folgende Umgebungsvariablen müssen auf dem Host gesetzt sein
+Folgende Umgebungsvariablen müssen auf dem Host gesetzt sein. Verwendet werden sie in der Datei [values.gotmpl](environments/default/values.gotmpl)
 
 |Umgebungsvariable      |Beschreibung|
 |-----------------------|-------------|

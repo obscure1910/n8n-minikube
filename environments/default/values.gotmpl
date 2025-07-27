@@ -1,4 +1,7 @@
-domain: {{ requiredEnv `NGROK_DOMAIN` }}
+ngrok:
+  domain: {{ requiredEnv `NGROK_DOMAIN` }}
+  apiKey: {{ requiredEnv `NGROK_API_KEY` }}
+  authToken: {{  requiredEnv `NGROK_AUTHTOKEN` }}
 n8n:
   encryptionKey: {{ requiredEnv `N8N_ENCRYPTION_KEY` }}
   license: {{ env `N8N_LICENSE` }}

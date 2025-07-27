@@ -1,19 +1,19 @@
 image:
   repository: n8nio/n8n
   pullPolicy: IfNotPresent
-  tag: "1.100.1"
+  tag: "1.103.2"
 
 main:
   config:
     n8n:
-      editor_base_url: https://{{ .Values.domain }}
+      editor_base_url: https://{{ .Values.ngrok.domain }}
       hide_usage_page: true
     # license ist beim ersten Start noch nicht vorhanden und wird erst per mail zugesendet. Kann hier anschließend gesetzt werden
       license:
         activation: 
           key: {{ .Values.n8n.license }}
     # Diese Url wird an Services gegeben damit diese Trigger in n8n auskösen können
-    webhook_url: https://{{ .Values.domain }}
+    webhook_url: https://{{ .Values.ngrok.domain }}
     executions_mode: queue
     queue:
       bull:
