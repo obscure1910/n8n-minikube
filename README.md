@@ -13,7 +13,7 @@ Dieses Projekt nutzt haupsächlich das Helmchart von [8gears](https://github.com
 [Helmfile](https://github.com/helmfile/helmfile) ermöglicht deklarativ das deployen von Charts
 
 ### ngrok
-[ngrok](https://ngrok.com) ist ein Reverse-Proxy und Operator, der den externen Zugriff auf APIs innerhalb eines Kubernetes-Clusters ermöglicht – ganz ohne komplexe Konfigurationen
+[ngrok](https://ngrok.com) ist ein Reverse-Proxy und Operator, der den externen Zugriff auf APIs innerhalb eines Kubernetes-Clusters ermöglicht – ganz ohne komplexe Konfigurationen. Statt die ngrok-CLI zu installieren, reicht es aus, einen Endpoint zu registrieren.
 
 #### Hinweis zu ngrok
 Ngrok erstellt für jeden referenzierten Service im Ingress automatisch AgentEndpoints und zugehörige Regeln. Im Free-Plan sind jedoch nur fünf Policy-Regeln erlaubt.
