@@ -61,7 +61,7 @@ helmfile sync
 __Da der ngrok Operator erst gestartet wird wenn alle Pods laufen, kann das Deployment beim ersten Aufruf bis zu 3 Minuten dauern.__
 
 ### n8n aufrufen
-Die von ngrok bereitgestellte Domäne im Brwoser aufrufen
+Die von ngrok bereitgestellte Domäne im Browser aufrufen
 
 https://he-man.ngrok-free.app
 

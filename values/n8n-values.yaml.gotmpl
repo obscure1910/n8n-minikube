@@ -1,14 +1,14 @@
 image:
   repository: n8nio/n8n
   pullPolicy: IfNotPresent
-  tag: "1.103.2"
+  tag: "1.106.1"
 
 main:
   config:
     n8n:
       editor_base_url: https://{{ .Values.ngrok.domain }}
       hide_usage_page: true
-    # license ist beim ersten Start noch nicht vorhanden und wird erst per mail zugesendet. Kann hier anschließend gesetzt werden
+    # license ist beim ersten Start noch nicht vorhanden und wird erst per Mail zugesendet. Kann hier anschließend gesetzt werden
       license:
         activation: 
           key: {{ .Values.n8n.license }}
@@ -54,7 +54,7 @@ main:
       value: {{ .Values.postgresql.user }}
     - name: DB_POSTGRESDB_PASSWORD
       value: {{ .Values.postgresql.password }}
-    # notwednig da n8n hinter ngrok läuft
+    # notwendig da n8n hinter ngrok läuft
     - name: N8N_PROXY_HOPS
       value: "1"
     - name: OFFLOAD_MANUAL_EXECUTIONS_TO_WORKERS

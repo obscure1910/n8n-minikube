@@ -1,6 +1,6 @@
 auth:
-  username: {{ requiredEnv `N8N_POSTGRESQL_USER` }}
-  password: {{ requiredEnv `N8N_POSTGRESQL_PASSWORD` }}
+  username: {{ .Values.postgresql.user }}
+  password: {{ .Values.postgresql.password }}
   database: n8n
 
 primary:
