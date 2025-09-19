@@ -38,7 +38,8 @@ releases:
     namespace: ngrok-operator
     chart: ngrok/ngrok-operator
     # warten bis pods laufen
-    wait: true              
+    wait: true   
+    version: 0.18.0           
     values:
       - values/ngrok-values.yaml.gotmpl
 
