@@ -1,10 +1,11 @@
 ngrok:
-  domain: {{ requiredEnv `NGROK_DOMAIN` }}
-  apiKey: {{ requiredEnv `NGROK_API_KEY` }}
-  authToken: {{  requiredEnv `NGROK_AUTHTOKEN` }}
+  domain: {{ requiredEnv `NGROK_KUBE_DOMAIN` }}
+  apiKey: {{ requiredEnv `NGROK_KUBE_API_KEY` }}
+  authToken: {{  requiredEnv `NGROK_KUBE_AUTHTOKEN` }}
 n8n:
-  encryptionKey: {{ requiredEnv `N8N_ENCRYPTION_KEY` }}
-  license: {{ env `N8N_LICENSE` }}
-postgresql:
-  user: {{ requiredEnv `N8N_POSTGRESQL_USER` }}
-  password: {{ requiredEnv `N8N_POSTGRESQL_PASSWORD` }}
+  encryptionKey: {{ requiredEnv `N8N_KUBE_ENCRYPTION_KEY` }}
+  license: {{ env `N8N_KUBE_LICENSE` }}
+db:
+  user: {{ requiredEnv `N8N_KUBE_POSTGRESQL_USER` }}
+  password: "n8nKu6eaUs3er"
+  name: {{ requiredEnv `N8N_KUBE_POSTGRESQL_DB` }}

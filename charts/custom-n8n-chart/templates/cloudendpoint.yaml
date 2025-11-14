@@ -6,7 +6,7 @@ kind: CloudEndpoint
 metadata:
   name: n8n-cloud
 spec:
-  url: {{ $host }}
+  url: {{ printf "https://%s" $host }}
   domain:
     name: {{ $host }}
   bindings:

@@ -1,7 +1,7 @@
 image:
   repository: n8nio/n8n
   pullPolicy: IfNotPresent
-  tag: "1.109.2"
+  tag: "1.118.2"
 
 main:
   config:
@@ -22,15 +22,31 @@ main:
         redis: 
           host: n8n-valkey-primary.n8n.svc.cluster.local
           port: "6379"
+    db:
+      type: postgresdb
+      postgresdb:
+        host: postgres-cluster-rw.db-n8n.svc.cluster.local
+        port: 5432
+        user: {{ .Values.db.user }}
+        password: "n8nKu6eaUs3er"
+        pool:
+          size: 10  
   secret:
     n8n:
       encryption_key: {{ .Values.n8n.encryptionKey }}
   resources:
     limits:
-      memory: 2048Mi
+      memory: 1536Mi
     requests:
       memory: 512Mi
   extraEnv: &extraEnv
+    #- name: DB_POSTGRESDB_PASSWORD
+    #  valueFrom:
+    #    secretKeyRef:
+    #      name: db-app
+    #      key: password
+    - name: DB_POSTGRESDB_PASSWORD
+      value: "n8nKu6eaUs3er"
     - name: N8N_RUNNERS_ENABLED
       value: "true"
     # sonst kommt eine Warnung beim aufruf dass man eine unsichere Verbindung verwendet
@@ -41,19 +57,6 @@ main:
       value: Europe/Berlin
     - name: TZ
       value: Europe/Berlin
-    # benutze postgresql um konfiguration zu speichern
-    - name: DB_TYPE
-      value: postgresdb
-    - name: DB_POSTGRESDB_DATABASE
-      value: n8n
-    - name: DB_POSTGRESDB_HOST
-      value: postgresql.database.svc.cluster.local
-    - name: DB_POSTGRESDB_PORT
-      value: "5432"
-    - name: DB_POSTGRESDB_USER
-      value: {{ .Values.postgresql.user }}
-    - name: DB_POSTGRESDB_PASSWORD
-      value: {{ .Values.postgresql.password }}
     # notwendig da n8n hinter ngrok läuft
     - name: N8N_PROXY_HOPS
       value: "1"
@@ -72,6 +75,9 @@ worker:
   extraEnv: *extraEnv
        
 valkey:
+  image:
+    repository: valkey/valkey       # official Valkey image
+    tag: "9.0.0"                    # or another version you want (see Valkey.io)
   enabled: true
   architecture: standalone
   sentinel:

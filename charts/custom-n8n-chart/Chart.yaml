@@ -1,0 +1,5 @@
+apiVersion: v2              
+name: custom-n8n-chart
+description: Anlegen der Agentendpoints und ein Cloudendpoint (Front Door Pattern). AUßerdem wird hier das Passwort für die DB hinterlegt
+type: application            
+version: 0.1.0
