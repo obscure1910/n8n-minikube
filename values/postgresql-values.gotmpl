@@ -1,14 +1,10 @@
-postgresql: "16"
+auth:
+  username: {{ .Values.db.user }}
+  password: {{ .Values.db.password }}
+  database: {{ .Values.db.name }}
 
-instances: 1
-
-bootstrap:
-  initdb:
-    database: {{ .Values.db.name }}
-    owner: {{ .Values.db.user }}
-    secret:
-      name: db-app
-      key: password
-
-storage:
-  size: 1Gi
+persistence:
+  enabled: true
+  size: "5Gi"
+  storageClass: "standard"
+  accessMode: "ReadWriteOnce"

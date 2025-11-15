@@ -7,5 +7,5 @@ n8n:
   license: {{ env `N8N_KUBE_LICENSE` }}
 db:
   user: {{ requiredEnv `N8N_KUBE_POSTGRESQL_USER` }}
-  password: "n8nKu6eaUs3er"
+  password: {{ requiredEnv `N8N_KUBE_POSTGRESQL_PASSWORD` }}
   name: {{ requiredEnv `N8N_KUBE_POSTGRESQL_DB` }}

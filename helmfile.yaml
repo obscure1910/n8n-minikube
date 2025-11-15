@@ -13,40 +13,19 @@ repositories:
   - name: 8gears
     url: 8gears.container-registry.com/library
     oci: true
-  - name: cnpg
-    url: https://cloudnative-pg.github.io/charts
+  - name: cloudpirates
+    url: registry-1.docker.io/cloudpirates
+    oci: true
   - name: ngrok
     url: https://charts.ngrok.com
 
 releases:
-
-  - name: custom-db-bootstrap
-    namespace: db-n8n
-    createNamespace: true
-    chart: charts/custom-db-bootstrap
-    values:
-      - values/custom-db-bootstrap-values.yaml.gotmpl
-
-  - name: cnpg-operator
-    namespace: db-n8n
-    chart: cnpg/cloudnative-pg
-    version: "0.26.1"
-    set:
-      - name: config.clusterWide
-        value: false
-    needs:
-      - db-n8n/custom-db-bootstrap
-    wait: true
-
   - name: postgres
     namespace: db-n8n
-    chart: cnpg/cluster
-    version: "0.3.1"
+    chart: cloudpirates/postgres
+    version: "0.12.0"
     values:
       - values/postgresql-values.gotmpl
-    needs:
-      - db-n8n/cnpg-operator
-      - db-n8n/custom-db-bootstrap
     wait: true
   
   - name: ngrok
@@ -62,12 +41,11 @@ releases:
     chart: charts/custom-n8n-chart
     # dieses release erst starten wenn ngrok-operator läuft; sonst können crds nicht gefunden werden
     needs:
-      # pattern <namespace>/<release-name>
       - ngrok-operator/ngrok 
-      - db-n8n/cnpg-operator
       - db-n8n/postgres
     values:
       - values/custom-n8n-values.yaml.gotmpl
+    wait: true
 
   - name: n8n
     namespace: n8n
@@ -75,7 +53,12 @@ releases:
     version: 1.1.0
     values:
       - values/n8n-values.yaml.gotmpl
+      # nötig um das valkey image zu überschreiben
       - global:
           security:
             allowInsecureImages: true
+    needs:
+      - n8n/custom-n8n
+
+    
 

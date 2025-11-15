@@ -25,10 +25,8 @@ main:
     db:
       type: postgresdb
       postgresdb:
-        host: postgres-cluster-rw.db-n8n.svc.cluster.local
+        host: postgres.db-n8n.svc.cluster.local
         port: 5432
-        user: {{ .Values.db.user }}
-        password: "n8nKu6eaUs3er"
         pool:
           size: 10  
   secret:
@@ -40,13 +38,16 @@ main:
     requests:
       memory: 512Mi
   extraEnv: &extraEnv
-    #- name: DB_POSTGRESDB_PASSWORD
-    #  valueFrom:
-    #    secretKeyRef:
-    #      name: db-app
-    #      key: password
+    - name: DB_POSTGRESDB_USER
+      valueFrom:
+        secretKeyRef:
+          name: creds-postresql
+          key: username
     - name: DB_POSTGRESDB_PASSWORD
-      value: "n8nKu6eaUs3er"
+      valueFrom:
+        secretKeyRef:
+          name: creds-postresql
+          key: password
     - name: N8N_RUNNERS_ENABLED
       value: "true"
     # sonst kommt eine Warnung beim aufruf dass man eine unsichere Verbindung verwendet
@@ -65,6 +66,10 @@ main:
     # sonst funktionieren die health checks nicht im queue mode und keine execution wird erfolgreich
     - name: QUEUE_HEALTH_CHECK_ACTIVE
       value: "true"
+
+persistence:
+  enabled: true
+  size: 1Gi
 
 webhook:
   enabled: true

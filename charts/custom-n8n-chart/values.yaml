@@ -2,6 +2,7 @@ agentendpoint:
   host: he-man.ngrok-free.app
   n8nService: http://n8n.internal:80
   webhookService: http://n8n.webhook.internal:80
+
 db:
-  user: "my_username_placeholder"
-  password: "n8nKu6eaUs3er"
+  user: "my_user_placeholder"
+  password: "my_password_placeholder"

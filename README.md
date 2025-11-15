@@ -39,6 +39,7 @@ Folgende Umgebungsvariablen müssen auf dem Host gesetzt sein. Verwendet werden 
 |N8N_POSTGRESQL_USER    |Benutzername für die Datenbank |
 |N8N_POSTGRESQL_PASSWORD|Passwort für die Datenbank |
 |N8N_LICENSE            |Lizenz von n8n |
+|N8N_POSTGRESQL_DB      |DB Name |
 
 n8n hat ein viele Umgebungsvariablen die hinzugefügt werden können: https://docs.n8n.io/hosting/configuration/environment-variables/
 

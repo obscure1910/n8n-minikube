@@ -1,5 +1,0 @@
-apiVersion: v2              
-name: custom-db-bootstrap
-description: Anlegen der des DB Secret für CNPG
-type: application            
-version: 0.1.0
